@@ -1,11 +1,11 @@
-package movement;
+package geometry.movement;
 
 import geometry.Vector3D;
 
 /**
  * Handles and stores the rotation movements of the spaceship.
+ * 
  * @author Judy
- *
  */
 public class Rotation extends Vector3D {
 
@@ -14,6 +14,7 @@ public class Rotation extends Vector3D {
 	private double m_speed = 0.1;
 
 	Direction direction;
+
 	public Rotation(double x, double y, double z, Direction dir) {
 		super(x, y, z);
 		direction = dir;
@@ -22,7 +23,9 @@ public class Rotation extends Vector3D {
 
 	/**
 	 * Rotate the ship
-	 * @param dir - direction to rotate the ship (i.e., left or right)
+	 * 
+	 * @param dir
+	 *            - direction to rotate the ship (i.e., left or right)
 	 * @throws Exception
 	 */
 	public void rotate(int dir) {
@@ -38,6 +41,7 @@ public class Rotation extends Vector3D {
 		z = rotate.z;
 		normalize();
 		System.out.println("rotation: " + x + ", " + y + ", " + z);
-		System.out.println("direction: " + direction.x + ", " + direction.y + ", " + direction.z);
+		System.out.println("direction: " + direction.x + ", " + direction.y
+				+ ", " + direction.z);
 	}
 }

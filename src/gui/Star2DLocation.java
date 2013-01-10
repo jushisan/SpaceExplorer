@@ -5,9 +5,7 @@ import geometry.Vector3D;
 
 /**
  * Calculate the star location on the 2D plane view.
- * 
  * @author Judy
- * 
  */
 public class Star2DLocation {
 

@@ -1,7 +1,8 @@
 package gui;
 
 import geometry.Vector2D;
-import geometry.Vector3D;
+import geometry.movement.Navigator;
+import geometry.movement.Rotation;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,45 +14,44 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 
-import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import movement.Navigator;
-import movement.Rotation;
 
 /**
  * This is the main frame for the SpaceExplore application.
+ * 
  * @author Judy
- *
  */
-public class ExploringPane extends JPanel implements MouseMotionListener, KeyListener {
+public class ExploringPane extends JPanel implements MouseMotionListener,
+		KeyListener {
+
+	// Note that for the stars to look properly after any movements (i.e.,
+	// rotate, change direction, and move forward), panel's width must equals to
+	// height.
+	private static int PANE_SIZE = 650;
 
 	// spaceship navigator and star objects
 	private Navigator nav = new Navigator(0, 0, 0);
-	private static ArrayList<Star> stars;
-	
+	private ArrayList<Star> stars;
+
 	public ExploringPane(ArrayList<Star> stars) {
 		this.stars = stars;
 		this.setBackground(Color.BLACK);
-		setPreferredSize(new Dimension(650, 650));
+		setPreferredSize(new Dimension(PANE_SIZE, PANE_SIZE));
 		this.repaint();
 		addMouseMotionListener(this);
 		setFocusable(true);
 		setFocusTraversalKeysEnabled(false);
 		addKeyListener(this);
-	    setVisible(true);
+		setVisible(true);
 	}
-	
+
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		// change the moving direction
 		nav.changeDirection(e.getX(), e.getY());
 		repaint();
 	}
-	
-	private int x = 0;
-	private int y = 0;
+
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		// Do Nothing
@@ -76,36 +76,34 @@ public class ExploringPane extends JPanel implements MouseMotionListener, KeyLis
 		}
 		repaint();
 	}
-	
+
 	/**
 	 * Paint the stars at the updated locations.
 	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
-		
-		int bound = 1;
 		for (Star star : stars) {
 			Vector2D pt = nav.getPlaneViews(star.location);
 			if (pt != null) {
-				int pointSize = (int) (getSize().width/(2*bound)*Math.atan(star.radius/star.location.subtract(nav.getLocation()).size()));
-				System.out.println("Pont size = " + pointSize + "; " + star.location.subtract(nav.getLocation()).size());
-				System.out.println("david's results: (" + pt.x  + ", " + pt.y + ")");
-				int xPos = (int) ((bound + pt.x)*getSize().width/(2*bound));
-				int yPos = (int) ((bound + pt.y)*getSize().height/(2*bound));
+				int pointSize = (int) (getSize().width / (2) * Math
+						.atan(star.radius / star.location.subtract(nav.getLocation())
+										.size()));
+				int x = (int) (pt.x * getSize().width + getSize().width / 2);
+				int y = (int) (pt.y * getSize().width + getSize().width / 2);
 				g2d.setColor(star.color);
-				g2d.fillOval(xPos, yPos, pointSize, pointSize);
+				g2d.fillOval(x, y, pointSize, pointSize);
 			} else {
-				System.out.println("Point is null");
+				System.out.println("Point is out of view.");
 			}
 		}
 	}
-	
+
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		// Do nothing
 	}
-	
+
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// Do nothing

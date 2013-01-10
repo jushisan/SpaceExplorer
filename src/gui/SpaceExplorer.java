@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import util.Randomizer;
+import main.Randomizer;
+
 
 /**
  * Exploring the space through the view of a spaceship.

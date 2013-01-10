@@ -1,4 +1,4 @@
-package util;
+package main;
 import java.util.Random;
 
 public class Randomizer {
